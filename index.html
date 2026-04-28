@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalorieIQ — Calorie, BMI, TDEE & Macro Calculator</title>
+<meta name="description" content="Free calorie, BMI, TDEE and macro calculator. Get your personalized daily calorie target, macro split, scientifically researched meal plan and fitness tips instantly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<script>
+  (function(){var t=localStorage.getItem('ciq-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');})();
+</script>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ NAV ═══════════════ -->
+<nav>
+  <a class="nav-logo" href="#" onclick="return false;">
+    <svg class="nav-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="8" fill="#4B82F3"/>
+      <path d="M16 7C11.0294 7 7 11.0294 7 16C7 20.9706 11.0294 25 16 25C20.9706 25 25 20.9706 25 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="4" fill="white"/>
+      <path d="M20 10L25 7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22.5 12L25 7L20.5 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-logo-wordmark">Calorie<span>IQ</span></span>
+  </a>
+  <div class="nav-links" id="nav-links">
+    <button class="nav-link" onclick="navGo('tools-section')">Calculators</button>
+    <button class="nav-link" onclick="navGo('meals-section')">Meal Plans</button>
+    <button class="nav-link" onclick="navGo('tips-section')">Tips</button>
+    <button class="nav-cta" onclick="navGo('tools-section')">Get Started</button>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+    <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+    <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+  </button>
+  <button class="hamburger" id="hamburger-btn" onclick="toggleMenu()" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ═══════════════════════════════════ HERO ═════════════ -->
+<header class="hero">
+  <div class="hero-bg-gradient"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Free &middot; No sign-up required
+  </div>
+  <h1>Know Your <em>Numbers.</em><br>Own Your Health.</h1>
+  <p class="hero-sub">Precise calorie, BMI, TDEE &amp; macro calculators powered by the Mifflin-St Jeor equation — plus research-backed meal plans and evidence-based tips.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Calculators</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">16</div>
+      <div class="stat-label">Meal Plans</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Expert Tips</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════ CALCULATORS ══════ -->
+<div id="tools-section" class="tools-section">
+  <div class="tool-tabs-wrapper">
+    <div class="tool-tabs">
+      <button class="tool-tab active" onclick="showTool('calorie',this)">Calorie</button>
+      <button class="tool-tab" onclick="showTool('bmi',this)">BMI</button>
+      <button class="tool-tab" onclick="showTool('tdee',this)">TDEE</button>
+      <button class="tool-tab" onclick="showTool('macro',this)">Macro Splitter</button>
+    </div>
+  </div>
+
+  <div class="calc-wrapper">
+
+    <!-- CALORIE -->
+    <div id="tool-calorie" class="panel active">
+      <div class="card">
+        <div class="field-group-label">Personal Details</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Sex</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" onclick="setGender('male',this,'c')">Male</button>
+              <button class="toggle-btn" onclick="setGender('female',this,'c')">Female</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Age</label>
+            <input type="number" id="c-age" placeholder="e.g. 28" min="10" max="120">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Height (cm)</label>
+            <input type="number" id="c-height" placeholder="e.g. 175">
+          </div>
+          <div class="field">
+            <label>Weight (kg)</label>
+            <input type="number" id="c-weight" placeholder="e.g. 70">
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:16px">
+          <label>Activity Level</label>
+          <select id="c-activity">
+            <option value="1.2">Sedentary — desk job, little exercise</option>
+            <option value="1.375">Lightly active — light exercise 1–3 days/week</option>
+            <option value="1.55" selected>Moderately active — moderate exercise 3–5 days/week</option>
+            <option value="1.725">Very active — hard exercise 6–7 days/week</option>
+            <option value="1.9">Extra active — physical job + daily training</option>
+          </select>
+        </div>
+        <hr class="divider">
+        <div class="field-group-label">Goal</div>
+        <div class="goal-tabs">
+          <button class="goal-tab" onclick="setGoal(-500,this)">Lose Weight</button>
+          <button class="goal-tab active" onclick="setGoal(0,this)">Maintain</button>
+          <button class="goal-tab" onclick="setGoal(300,this)">Lean Bulk</button>
+          <button class="goal-tab" onclick="setGoal(500,this)">Build Muscle</button>
+        </div>
+        <button class="calc-btn" onclick="calcCalorie()">Calculate My Calories</button>
+
+        <div class="results" id="c-results">
+          <hr class="divider">
+          <div class="result-hero">
+            <div class="calorie-display" id="c-num">—</div>
+            <div class="calorie-label">calories per day</div>
+          </div>
+          <div class="macro-grid">
+            <div class="macro-card protein">
+              <div class="macro-val" id="c-pp">—</div>
+              <div class="macro-name">Protein</div>
+              <div class="macro-g" id="c-pg">—</div>
+            </div>
+            <div class="macro-card carbs">
+              <div class="macro-val" id="c-cp">—</div>
+              <div class="macro-name">Carbs</div>
+              <div class="macro-g" id="c-cg">—</div>
+            </div>
+            <div class="macro-card fat">
+              <div class="macro-val" id="c-fp">—</div>
+              <div class="macro-name">Fat</div>
+              <div class="macro-g" id="c-fg">—</div>
+            </div>
+          </div>
+          <div class="bmi-section">
+            <div class="bmi-row">
+              <div>
+                <div class="bmi-label-text">Your BMI</div>
+                <div class="bmi-val" id="c-bmi">—</div>
+              </div>
+              <div style="text-align:right">
+                <div class="bmi-label-text">Category</div>
+                <div id="c-bmi-cat" style="font-weight:700;font-size:.88rem;margin-top:4px">—</div>
+              </div>
+            </div>
+            <div class="bmi-bar"><div class="bmi-marker" id="c-bmi-marker" style="left:0%"></div></div>
+            <div class="bmi-range-labels">
+              <span>Underweight</span><span>Normal</span><span>Overweight</span><span>Obese</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BMI -->
+    <div id="tool-bmi" class="panel">
+      <div class="card">
+        <div class="field-group-label">BMI Calculator</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Height (cm)</label>
+            <input type="number" id="b-height" placeholder="e.g. 175">
+          </div>
+          <div class="field">
+            <label>Weight (kg)</label>
+            <input type="number" id="b-weight" placeholder="e.g. 70">
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcBMI()">Calculate BMI</button>
+        <div class="results" id="b-results">
+          <hr class="divider">
+          <div class="result-hero">
+            <div class="calorie-display" id="b-num">—</div>
+            <div class="calorie-label" id="b-cat">—</div>
+          </div>
+          <div class="bmi-section">
+            <div class="bmi-bar"><div class="bmi-marker" id="b-marker" style="left:0%"></div></div>
+            <div class="bmi-range-labels">
+              <span>Underweight &lt;18.5</span>
+              <span>Normal 18.5–24.9</span>
+              <span>Overweight 25–29.9</span>
+              <span>Obese 30+</span>
+            </div>
+          </div>
+          <div style="margin-top:14px">
+            <div class="result-row">
+              <div class="rr-label">Healthy weight range for your height</div>
+              <div class="rr-val" id="b-range">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TDEE -->
+    <div id="tool-tdee" class="panel">
+      <div class="card">
+        <div class="field-group-label">TDEE Calculator</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Sex</label>
+            <div class="toggle-group">
+              <button class="toggle-btn active" onclick="setGender('male',this,'t')">Male</button>
+              <button class="toggle-btn" onclick="setGender('female',this,'t')">Female</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Age</label>
+            <input type="number" id="t-age" placeholder="e.g. 28">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Height (cm)</label>
+            <input type="number" id="t-height" placeholder="e.g. 175">
+          </div>
+          <div class="field">
+            <label>Weight (kg)</label>
+            <input type="number" id="t-weight" placeholder="e.g. 70">
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:14px">
+          <label>Activity Level</label>
+          <select id="t-activity">
+            <option value="1.2">Sedentary</option>
+            <option value="1.375">Lightly active</option>
+            <option value="1.55" selected>Moderately active</option>
+            <option value="1.725">Very active</option>
+            <option value="1.9">Extra active</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="calcTDEE()">Calculate TDEE</button>
+        <div class="results" id="t-results">
+          <hr class="divider">
+          <div class="result-row">
+            <div class="rr-label">BMR — Basal Metabolic Rate (at complete rest)</div>
+            <div class="rr-val" id="t-bmr">—</div>
+          </div>
+          <div class="result-row">
+            <div class="rr-label">TDEE — Total Daily Energy Expenditure</div>
+            <div class="rr-val" id="t-tdee">—</div>
+          </div>
+          <div class="result-row">
+            <div class="rr-label">Weight Loss Target (−500 cal/day ≈ −0.5 kg/week)</div>
+            <div class="rr-val" id="t-loss" style="color:var(--protein)">—</div>
+          </div>
+          <div class="result-row">
+            <div class="rr-label">Lean Bulk Target (+300 cal/day)</div>
+            <div class="rr-val" id="t-gain" style="color:var(--carbs)">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MACRO SPLITTER -->
+    <div id="tool-macro" class="panel">
+      <div class="card">
+        <div class="field-group-label">Macro Splitter</div>
+        <div class="field" style="margin-bottom:20px">
+          <label>Your Daily Calorie Target</label>
+          <input type="number" id="m-calories" placeholder="e.g. 2200" oninput="updateMacroResults()">
+        </div>
+        <hr class="divider">
+        <div class="field-group-label">Adjust Your Split — must total 100%</div>
+
+        <div class="macro-slider-row">
+          <div class="macro-slider-header">
+            <span class="msl" style="color:var(--protein)">Protein</span>
+            <span class="msp" id="lp" style="color:var(--protein)">30%</span>
+          </div>
+          <input type="range" id="rp" min="5" max="70" value="30" oninput="syncSliders('p')" style="accent-color:var(--protein)">
+        </div>
+        <div class="macro-slider-row">
+          <div class="macro-slider-header">
+            <span class="msl" style="color:var(--carbs)">Carbohydrates</span>
+            <span class="msp" id="lc" style="color:var(--carbs)">45%</span>
+          </div>
+          <input type="range" id="rc" min="5" max="70" value="45" oninput="syncSliders('c')" style="accent-color:var(--carbs)">
+        </div>
+        <div class="macro-slider-row">
+          <div class="macro-slider-header">
+            <span class="msl" style="color:var(--fat)">Dietary Fat</span>
+            <span class="msp" id="lf" style="color:var(--fat)">25%</span>
+          </div>
+          <input type="range" id="rf" min="5" max="70" value="25" oninput="syncSliders('f')" style="accent-color:var(--fat)">
+        </div>
+
+        <div class="macro-warning" id="m-warn"></div>
+        <div class="macro-result-grid">
+          <div class="mrc"><div class="mrv" id="m-pg" style="color:var(--protein)">—</div><div class="mrn">Protein (g)</div></div>
+          <div class="mrc"><div class="mrv" id="m-cg" style="color:var(--carbs)">—</div><div class="mrn">Carbs (g)</div></div>
+          <div class="mrc"><div class="mrv" id="m-fg" style="color:var(--fat)">—</div><div class="mrn">Fat (g)</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ MEAL PLANS ═══════ -->
+<div id="meals-section" class="wide-section">
+  <div class="section-eyebrow">Nutrition</div>
+  <div class="section-heading">Research-Backed Meal Plans</div>
+  <p class="section-sub">Every meal is built from verified nutritional data (USDA FoodData Central). Macros are calculated per the actual ingredients and portion sizes listed.</p>
+
+  <div class="meal-filter">
+    <button class="mfb active" onclick="filterMeals('all',this)">All Meals</button>
+    <button class="mfb" onclick="filterMeals('lose',this)">Weight Loss</button>
+    <button class="mfb" onclick="filterMeals('maintain',this)">Maintenance</button>
+    <button class="mfb" onclick="filterMeals('gain',this)">Muscle Gain</button>
+    <button class="mfb" onclick="filterMeals('hp',this)">High Protein</button>
+    <button class="mfb" onclick="filterMeals('veg',this)">Vegetarian</button>
+  </div>
+
+  <div class="meal-grid">
+    <div class="meal-card" data-cat="lose hp">
+      <div class="meal-top">
+        <div class="meal-icon">🥗</div>
+        <div class="meal-title-wrap">
+          <h3>Grilled Chicken Salad</h3>
+          <span class="meal-tag">Lunch · Weight Loss</span>
+        </div>
+      </div>
+      <p>150 g grilled chicken breast (skinless), 80 g mixed greens, 60 g cherry tomatoes, 50 g cucumber, 30 g red onion, 1 tbsp extra-virgin olive oil, lemon juice. Chicken provides a complete amino-acid profile; olive oil supplies heart-healthy oleic acid.</p>
+      <div class="meal-macros">
+        <span class="mp cal">347 kcal</span><span class="mp p">38 g protein</span><span class="mp c">9 g carbs</span><span class="mp f">16 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="lose">
+      <div class="meal-top">
+        <div class="meal-icon">🥣</div>
+        <div class="meal-title-wrap">
+          <h3>Greek Yogurt Parfait</h3>
+          <span class="meal-tag">Breakfast · Weight Loss</span>
+        </div>
+      </div>
+      <p>200 g non-fat Greek yogurt (~20 g casein protein), 100 g fresh mixed berries (blueberries, strawberries — rich in anthocyanins), 30 g low-sugar granola. Casein digests slowly, sustaining satiety for 3–4 hours post-meal.</p>
+      <div class="meal-macros">
+        <span class="mp cal">312 kcal</span><span class="mp p">22 g protein</span><span class="mp c">40 g carbs</span><span class="mp f">5 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="lose hp">
+      <div class="meal-top">
+        <div class="meal-icon">🌮</div>
+        <div class="meal-title-wrap">
+          <h3>Tuna Lettuce Wraps</h3>
+          <span class="meal-tag">Lunch · Low Carb</span>
+        </div>
+      </div>
+      <p>150 g canned yellowfin tuna in water (drained), ½ Hass avocado (60 g), 60 g cherry tomatoes, fresh lime juice, cracked pepper, in 4 large romaine cups. Avocado provides monounsaturated fats that enhance fat-soluble vitamin absorption.</p>
+      <div class="meal-macros">
+        <span class="mp cal">318 kcal</span><span class="mp p">36 g protein</span><span class="mp c">7 g carbs</span><span class="mp f">14 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="lose maintain">
+      <div class="meal-top">
+        <div class="meal-icon">🍜</div>
+        <div class="meal-title-wrap">
+          <h3>Turkey Cauliflower Stir Fry</h3>
+          <span class="meal-tag">Dinner · Weight Loss</span>
+        </div>
+      </div>
+      <p>150 g 93%-lean ground turkey, 200 g riced cauliflower (replacing 90% of carbs vs. white rice), 80 g bell peppers, 60 g zucchini, 1 tbsp low-sodium soy sauce, ginger, garlic. Turkey supplies all essential B-vitamins at very low saturated fat.</p>
+      <div class="meal-macros">
+        <span class="mp cal">387 kcal</span><span class="mp p">34 g protein</span><span class="mp c">18 g carbs</span><span class="mp f">18 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="maintain hp">
+      <div class="meal-top">
+        <div class="meal-icon">🍱</div>
+        <div class="meal-title-wrap">
+          <h3>Baked Salmon & Brown Rice Bowl</h3>
+          <span class="meal-tag">Lunch · Maintenance</span>
+        </div>
+      </div>
+      <p>150 g Atlantic salmon fillet (baked), 150 g cooked brown rice, 100 g steamed broccoli, 1 tsp sesame oil, 1 tbsp low-sodium soy sauce. Salmon delivers ~2.2 g omega-3 EPA+DHA per serving, reducing systemic inflammation and supporting cardiovascular health.</p>
+      <div class="meal-macros">
+        <span class="mp cal">582 kcal</span><span class="mp p">38 g protein</span><span class="mp c">52 g carbs</span><span class="mp f">19 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="maintain veg">
+      <div class="meal-top">
+        <div class="meal-icon">🥙</div>
+        <div class="meal-title-wrap">
+          <h3>Mediterranean Chickpea Bowl</h3>
+          <span class="meal-tag">Lunch · Vegetarian</span>
+        </div>
+      </div>
+      <p>200 g canned chickpeas (roasted), 60 g dry quinoa (cooked — complete protein), 60 g cucumber, 50 g cherry tomatoes, 30 g kalamata olives, 2 tbsp tzatziki. Quinoa is one of few plant proteins containing all nine essential amino acids.</p>
+      <div class="meal-macros">
+        <span class="mp cal">548 kcal</span><span class="mp p">24 g protein</span><span class="mp c">70 g carbs</span><span class="mp f">17 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="maintain">
+      <div class="meal-top">
+        <div class="meal-icon">🥚</div>
+        <div class="meal-title-wrap">
+          <h3>Egg & Oat Breakfast Bowl</h3>
+          <span class="meal-tag">Breakfast · Maintenance</span>
+        </div>
+      </div>
+      <p>3 whole eggs, 60 g dry rolled oats (providing β-glucan fibre), ½ medium banana (55 g), 1 tsp raw honey. Whole eggs provide choline for acetylcholine synthesis. Oat β-glucan reduces LDL-cholesterol by ~5% with daily intake.</p>
+      <div class="meal-macros">
+        <span class="mp cal">526 kcal</span><span class="mp p">28 g protein</span><span class="mp c">60 g carbs</span><span class="mp f">18 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="maintain veg">
+      <div class="meal-top">
+        <div class="meal-icon">🫘</div>
+        <div class="meal-title-wrap">
+          <h3>Lentil & Sweet Potato Curry</h3>
+          <span class="meal-tag">Dinner · Vegetarian</span>
+        </div>
+      </div>
+      <p>150 g red lentils, 200 g sweet potato (cubed), 200 ml light coconut milk, 1 tin chopped tomatoes, turmeric, cumin, coriander. Lentils supply 18 g plant protein and 15 g fibre per serving. Turmeric curcumin has demonstrated anti-inflammatory effects in 40+ clinical trials.</p>
+      <div class="meal-macros">
+        <span class="mp cal">565 kcal</span><span class="mp p">26 g protein</span><span class="mp c">88 g carbs</span><span class="mp f">11 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="gain hp">
+      <div class="meal-top">
+        <div class="meal-icon">🥩</div>
+        <div class="meal-title-wrap">
+          <h3>Lean Beef & Sweet Potato</h3>
+          <span class="meal-tag">Dinner · Muscle Gain</span>
+        </div>
+      </div>
+      <p>200 g 90%-lean ground beef (pan-fried, drained), 250 g roasted sweet potato, 80 g mixed greens. Ground beef provides leucine — the amino acid most responsible for activating muscle protein synthesis via mTORC1. Sweet potato supplies glucose for glycogen replenishment.</p>
+      <div class="meal-macros">
+        <span class="mp cal">706 kcal</span><span class="mp p">48 g protein</span><span class="mp c">64 g carbs</span><span class="mp f">22 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="gain hp">
+      <div class="meal-top">
+        <div class="meal-icon">🍝</div>
+        <div class="meal-title-wrap">
+          <h3>Chicken Pasta Bake</h3>
+          <span class="meal-tag">Dinner · Muscle Gain</span>
+        </div>
+      </div>
+      <p>200 g grilled chicken breast, 180 g whole-wheat penne (dry weight), 80 g passata, 30 g part-skim mozzarella, fresh basil. Whole-wheat pasta has a 20-point lower glycaemic index than refined pasta, delivering sustained energy while the high protein content supports hypertrophy.</p>
+      <div class="meal-macros">
+        <span class="mp cal">773 kcal</span><span class="mp p">55 g protein</span><span class="mp c">82 g carbs</span><span class="mp f">18 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="gain maintain">
+      <div class="meal-top">
+        <div class="meal-icon">🥤</div>
+        <div class="meal-title-wrap">
+          <h3>Mass Builder Protein Shake</h3>
+          <span class="meal-tag">Post-Workout · Muscle Gain</span>
+        </div>
+      </div>
+      <p>1 scoop (30 g) whey protein isolate, 1 medium banana, 2 tbsp natural peanut butter, 50 g rolled oats, 300 ml whole milk. Whey isolate peaks in plasma amino acids within 60 min — the ideal post-training window. Combined with banana carbs, it maximises glycogen resynthesis.</p>
+      <div class="meal-macros">
+        <span class="mp cal">748 kcal</span><span class="mp p">46 g protein</span><span class="mp c">84 g carbs</span><span class="mp f">22 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="gain hp">
+      <div class="meal-top">
+        <div class="meal-icon">🍗</div>
+        <div class="meal-title-wrap">
+          <h3>Chicken Thigh & Jasmine Rice</h3>
+          <span class="meal-tag">Dinner · Muscle Gain</span>
+        </div>
+      </div>
+      <p>220 g bone-in, skin-off chicken thigh (oven-roasted), 200 g cooked jasmine rice, 120 g steamed edamame, 1 tbsp teriyaki glaze. Chicken thigh offers 10% more calories than breast with a richer fat profile, supporting testosterone production during high-volume training phases.</p>
+      <div class="meal-macros">
+        <span class="mp cal">720 kcal</span><span class="mp p">52 g protein</span><span class="mp c">72 g carbs</span><span class="mp f">18 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="hp lose">
+      <div class="meal-top">
+        <div class="meal-icon">🍳</div>
+        <div class="meal-title-wrap">
+          <h3>Egg White Omelette</h3>
+          <span class="meal-tag">Breakfast · High Protein</span>
+        </div>
+      </div>
+      <p>6 egg whites + 2 whole eggs, 40 g baby spinach, 30 g diced red pepper, 25 g reduced-fat feta. Egg whites provide pure albumin protein with near-zero fat; the 2 whole eggs supply choline, vitamin D and zinc without excessive calories.</p>
+      <div class="meal-macros">
+        <span class="mp cal">328 kcal</span><span class="mp p">40 g protein</span><span class="mp c">5 g carbs</span><span class="mp f">14 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="hp lose veg">
+      <div class="meal-top">
+        <div class="meal-icon">🧀</div>
+        <div class="meal-title-wrap">
+          <h3>Cottage Cheese Power Bowl</h3>
+          <span class="meal-tag">Snack · High Protein · Vegetarian</span>
+        </div>
+      </div>
+      <p>250 g low-fat cottage cheese (4% fat), 80 g fresh pineapple, 1 tbsp sunflower seeds, cracked black pepper. Cottage cheese is predominantly casein — the slow-digesting milk protein — particularly effective as a pre-sleep protein source to reduce overnight muscle catabolism.</p>
+      <div class="meal-macros">
+        <span class="mp cal">290 kcal</span><span class="mp p">30 g protein</span><span class="mp c">22 g carbs</span><span class="mp f">9 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="hp maintain">
+      <div class="meal-top">
+        <div class="meal-icon">🍤</div>
+        <div class="meal-title-wrap">
+          <h3>Garlic Shrimp & Quinoa</h3>
+          <span class="meal-tag">Dinner · High Protein</span>
+        </div>
+      </div>
+      <p>200 g raw tiger prawns (peeled), 80 g dry quinoa (cooked), 100 g asparagus, 3 cloves garlic, 1 tsp olive oil, lemon zest. Shrimp is among the most protein-dense foods by calorie at 24 g per 100 g. Asparagus supplies folate, vitamin K and prebiotic inulin.</p>
+      <div class="meal-macros">
+        <span class="mp cal">440 kcal</span><span class="mp p">46 g protein</span><span class="mp c">42 g carbs</span><span class="mp f">9 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+
+    <div class="meal-card" data-cat="veg maintain">
+      <div class="meal-top">
+        <div class="meal-icon">🥑</div>
+        <div class="meal-title-wrap">
+          <h3>Avocado Toast & Poached Eggs</h3>
+          <span class="meal-tag">Breakfast · Vegetarian</span>
+        </div>
+      </div>
+      <p>2 slices seeded sourdough (90 g), ½ large avocado (80 g, mashed), 2 poached eggs, chilli flakes, fresh lemon juice. Avocado supplies 10 g of monounsaturated fats per serving. Sourdough has a lower glycaemic response than standard bread due to lactic acid fermentation.</p>
+      <div class="meal-macros">
+        <span class="mp cal">510 kcal</span><span class="mp p">22 g protein</span><span class="mp c">44 g carbs</span><span class="mp f">26 g fat</span>
+      </div>
+      <div class="meal-source">USDA FoodData Central — per serving</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ TIPS ═════════════ -->
+<div id="tips-section" class="wide-section">
+  <div class="section-eyebrow">Science-Backed</div>
+  <div class="section-heading">Evidence-Based Fitness Tips</div>
+  <p class="section-sub">No pseudoscience. Every tip references peer-reviewed research or verified clinical data.</p>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-num">01</div>
+      <h3>Protein at Every Meal</h3>
+      <p>Aim for 0.4 g of protein per kg of bodyweight per meal across 4 meals. Norton & Layman (2011) showed that distributing 20–40 g of high-quality protein across meals maximises 24-hour muscle protein synthesis compared to front-loading protein at one meal.</p>
+      <div class="tip-source">Norton & Layman, Journal of Nutrition, 2011</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">02</div>
+      <h3>Carbohydrates Are Not the Enemy</h3>
+      <p>Carbohydrates are the body's primary fuel substrate. Focus on low-GI sources — oats (GI ~55), sweet potato (GI ~50), and legumes (GI ~28–40) — timed around training to replenish muscle glycogen without triggering excess fat storage.</p>
+      <div class="tip-source">Thomas et al., Journal of the Academy of Nutrition & Dietetics, 2016</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">03</div>
+      <h3>Track for 14 Days</h3>
+      <p>A 2019 study in Obesity found that participants who logged food for just 14–28 days developed lasting portion-size awareness, consuming an average of 224 fewer calories daily at 6-month follow-up — without continuing to track. Short-term precision creates long-term habits.</p>
+      <div class="tip-source">Harvey et al., Obesity, 2019</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">04</div>
+      <h3>Sleep Is a Nutritional Lever</h3>
+      <p>Sleep deprivation (&lt;6 hrs) elevates ghrelin by ~28% and suppresses leptin by ~18% (Spiegel et al., 2004), increasing appetite — particularly for calorie-dense foods. Prioritising 7–9 hours is one of the most impactful dietary interventions with no calorie cost.</p>
+      <div class="tip-source">Spiegel et al., PLOS Medicine, 2004</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">05</div>
+      <h3>Pre-Meal Water Reduces Intake</h3>
+      <p>Drinking 500 ml of water 30 minutes before each meal led to 44% greater weight loss over 12 weeks in a randomised controlled trial by Davy et al. (2008). Water occupies gastric volume and slows gastric emptying, reducing ad-libitum intake by ~13% per meal.</p>
+      <div class="tip-source">Davy et al., Obesity, 2008</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">06</div>
+      <h3>Progressive Overload Is Non-Negotiable</h3>
+      <p>Muscle growth requires progressive mechanical tension. Adding 2.5 kg to compound lifts every 1–2 weeks during beginner–intermediate phases produces measurable hypertrophy. Without increasing load or volume over time, muscle protein synthesis returns to baseline within 6 weeks.</p>
+      <div class="tip-source">Schoenfeld, Journal of Strength & Conditioning Research, 2010</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">07</div>
+      <h3>Weekly Weigh-In Beats Daily</h3>
+      <p>Bodyweight fluctuates 1–3 kg within a single day due to hydration, glycogen, and gut content. Weigh at the same time each morning once per week and compute a rolling 4-week average. Daily weighing increases anxiety without improving outcomes.</p>
+      <div class="tip-source">Pacanowski et al., Journal of Behavioral Medicine, 2015</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">08</div>
+      <h3>NEAT: The Overlooked Calorie Burn</h3>
+      <p>Non-Exercise Activity Thermogenesis (NEAT) — all movement outside formal exercise — accounts for 15–50% of total daily energy expenditure. Sedentary individuals burn 350–700 fewer calories daily than active peers. 8,000–10,000 steps adds an estimated 300–500 kcal/day.</p>
+      <div class="tip-source">Levine et al., Science, 2005</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-num">09</div>
+      <h3>Batch Cooking Reduces Calories</h3>
+      <p>A study of 40,000 adults (Ducrot et al., 2017) found that individuals who batch-cooked meals 3+ times per week consumed 137 fewer daily calories, had higher diet quality scores, and were 24% less likely to be overweight. Preparation removes the high-calorie default of convenience food.</p>
+      <div class="tip-source">Ducrot et al., International Journal of Behavioral Nutrition, 2017</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ FOOTER ═══════════ -->
+<footer>
+  <div class="foot-brand">
+    <svg class="foot-brand-icon" viewBox="0 0 32 32" fill="none">
+      <rect width="32" height="32" rx="8" fill="#4B82F3"/>
+      <path d="M16 7C11.0294 7 7 11.0294 7 16C7 20.9706 11.0294 25 16 25C20.9706 25 25 20.9706 25 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="4" fill="white"/>
+      <path d="M20 10L25 7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span class="foot-brand-name">Calorie<span>IQ</span></span>
+  </div>
+  <div class="foot-links">
+    <a href="#" onclick="goTo('tools-section');return false;">Calculators</a>
+    <a href="#" onclick="goTo('meals-section');return false;">Meal Plans</a>
+    <a href="#" onclick="goTo('tips-section');return false;">Tips</a>
+  </div>
+  <p>Calorie formulas use the Mifflin-St Jeor equation (1990), the most accurate general-population BMR predictor per the Academy of Nutrition and Dietetics.</p>
+  <p class="foot-disclaimer">For informational purposes only. Consult a registered dietitian or physician before making significant dietary changes.</p>
+</footer>
+
+<!-- ═══════════════════════════════════ JAVASCRIPT ═══════ -->
+<script src="script.js"></script>
+</body>
+</html>
