@@ -20,11 +20,7 @@
 <nav>
   <a class="nav-logo" href="#" onclick="return false;">
     <svg class="nav-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="32" height="32" rx="8" fill="#4B82F3"/>
-      <path d="M16 7C11.0294 7 7 11.0294 7 16C7 20.9706 11.0294 25 16 25C20.9706 25 25 20.9706 25 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="16" cy="16" r="4" fill="white"/>
-      <path d="M20 10L25 7" stroke="white" stroke-width="2" stroke-linecap="round"/>
-      <path d="M22.5 12L25 7L20.5 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19 2L6 18h8l-2 12 13-16h-8l2-12z" fill="#F97316"/>
     </svg>
     <span class="nav-logo-wordmark">Calorie<span>IQ</span></span>
   </a>
@@ -52,14 +48,121 @@
 
 <!-- ═══════════════════════════════════ HERO ═════════════ -->
 <header class="hero">
-  <div class="hero-bg-gradient"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-badge">
-    <span class="badge-dot"></span>
-    Free &middot; No sign-up required
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+    <div class="hero-grid"></div>
   </div>
-  <h1>Know Your <em>Numbers.</em><br>Own Your Health.</h1>
-  <p class="hero-sub">Precise calorie, BMI, TDEE &amp; macro calculators powered by the Mifflin-St Jeor equation — plus research-backed meal plans and evidence-based tips.</p>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Free &middot; No sign-up required
+      </div>
+
+      <h1>
+        Know Your
+        <em>
+          Numbers
+          <svg class="hero-underline" viewBox="0 0 220 14" fill="none" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M3 9C45 3 100 2 165 6C185 7 205 9 217 11" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </em>.
+        <br>Own Your Health.
+      </h1>
+
+      <p class="hero-sub">Precise calorie, BMI, TDEE &amp; macro calculators powered by the Mifflin-St Jeor equation — plus research-backed meal plans and evidence-based tips.</p>
+
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="goTo('tools-section')">
+          Calculate Free
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </button>
+        <button class="btn-ghost" onclick="goTo('meals-section')">
+          Browse Meal Plans
+        </button>
+      </div>
+
+      <div class="hero-trust">
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Mifflin-St Jeor formula
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Research-backed plans
+        </div>
+        <div class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Works on any device
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hv-card">
+        <div class="hv-card-head">
+          <span class="hv-dot"></span>
+          <span class="hv-dot"></span>
+          <span class="hv-dot"></span>
+          <span class="hv-card-title">Your Daily Target</span>
+        </div>
+
+        <div class="hv-result">
+          <div class="hv-result-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            Target Calories
+          </div>
+          <div class="hv-result-num">2,633<span>kcal / day</span></div>
+        </div>
+
+        <div class="hv-macros">
+          <div class="hv-macro">
+            <div class="hv-macro-row">
+              <span class="hv-macro-name p">Protein <span class="hv-macro-pct">30%</span></span>
+              <span class="hv-macro-val">197g</span>
+            </div>
+            <div class="hv-bar"><div class="hv-bar-fill p" style="width:30%"></div></div>
+          </div>
+          <div class="hv-macro">
+            <div class="hv-macro-row">
+              <span class="hv-macro-name c">Carbs <span class="hv-macro-pct">45%</span></span>
+              <span class="hv-macro-val">296g</span>
+            </div>
+            <div class="hv-bar"><div class="hv-bar-fill c" style="width:45%"></div></div>
+          </div>
+          <div class="hv-macro">
+            <div class="hv-macro-row">
+              <span class="hv-macro-name f">Fat <span class="hv-macro-pct">25%</span></span>
+              <span class="hv-macro-val">73g</span>
+            </div>
+            <div class="hv-bar"><div class="hv-bar-fill f" style="width:25%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hv-chip chip-1">
+        <span class="chip-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7l-1 8 11-14h-7l0-6z"/></svg>
+        </span>
+        BMI <strong>22.4</strong>
+      </div>
+      <div class="hv-chip chip-2">
+        <span class="chip-icon flame">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s4 4 4 8a4 4 0 11-8 0c0-1 .5-2 1-3-2 1-5 4-5 8a8 8 0 1016 0c0-6-8-13-8-13z"/></svg>
+        </span>
+        TDEE <strong>2,450</strong>
+      </div>
+      <div class="hv-chip chip-3">
+        <span class="chip-icon check">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </span>
+        16 meal plans
+      </div>
+    </div>
+  </div>
+
   <div class="hero-stats">
     <div class="stat">
       <div class="stat-num">4</div>
@@ -650,10 +753,7 @@
 <footer>
   <div class="foot-brand">
     <svg class="foot-brand-icon" viewBox="0 0 32 32" fill="none">
-      <rect width="32" height="32" rx="8" fill="#4B82F3"/>
-      <path d="M16 7C11.0294 7 7 11.0294 7 16C7 20.9706 11.0294 25 16 25C20.9706 25 25 20.9706 25 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="16" cy="16" r="4" fill="white"/>
-      <path d="M20 10L25 7" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <path d="M19 2L6 18h8l-2 12 13-16h-8l2-12z" fill="#F97316"/>
     </svg>
     <span class="foot-brand-name">Calorie<span>IQ</span></span>
   </div>
